@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Invoice Generator Online | GST Billing Software for Small Business</title>
+
+  <meta name="description" content="Create professional GST invoices online for free. Fast, simple and secure billing software for freelancers and small businesses.">
+  <meta name="keywords" content="invoice generator, free invoice generator, online invoice maker, billing software, GST invoice generator India, create invoice online">
+  <meta name="author" content="Your Brand Name">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:title" content="Free Invoice Generator | Billing Software">
+  <meta property="og:description" content="Generate professional invoices instantly. Perfect for freelancers and small businesses.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:image" content="https://yourwebsite.com/preview.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Invoice Generator Online">
+  <meta name="twitter:description" content="Create invoices in seconds with our billing software.">
+  <meta name="twitter:image" content="https://yourwebsite.com/preview.jpg">
+
+  <link rel="canonical" href="https://yourwebsite.com">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "InvoicePro",
+    "operatingSystem": "All",
+    "applicationCategory": "BusinessApplication",
+    "description": "Free online invoice generator for freelancers and small businesses.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">₹</span>
+      <div>
+        <h1>InvoicePro</h1>
+        <p>Professional invoice generation</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- ============ Input panel ============ -->
+    <aside class="input-panel">
+      <div class="panel">
+        <h2 class="panel-title">Invoice details</h2>
+
+        <h3 class="group-title">Your business</h3>
+        <label class="field">
+          <span>Business name</span>
+          <input id="businessNameInput" type="text" value="Tech Solutions Pvt. Ltd.">
+        </label>
+        <label class="field">
+          <span>Business address</span>
+          <textarea id="businessAddressInput" rows="2">123 Business Rd, New Delhi, India 110001</textarea>
+        </label>
+        <label class="field">
+          <span>Your GSTIN (optional)</span>
+          <input id="businessGstinInput" type="text" value="07AAACH9121E1ZJ" class="uppercase">
+        </label>
+
+        <h3 class="group-title">Client</h3>
+        <label class="field">
+          <span>Client name</span>
+          <input id="clientNameInput" type="text" value="Acme Corp">
+        </label>
+        <label class="field">
+          <span>Client address</span>
+          <textarea id="clientAddressInput" rows="2">456 Client St, Mumbai, India 400001</textarea>
+        </label>
+        <label class="field">
+          <span>Client GSTIN (optional)</span>
+          <input id="clientGstinInput" type="text" value="" class="uppercase">
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span>Invoice no.</span>
+            <input id="invoiceNumberInput" type="text" value="INV-2026-001">
+          </label>
+          <label class="field">
+            <span>Date</span>
+            <input id="dateInput" type="date">
+          </label>
+        </div>
+
+        <h3 class="group-title">Services / products</h3>
+        <div id="itemsContainer" class="items"></div>
+        <button id="addItemButton" type="button" class="btn btn-soft btn-block">+ Add line item</button>
+
+        <h3 class="group-title">Tax and discount</h3>
+        <div class="row">
+          <label class="field">
+            <span>Tax rate (%)</span>
+            <input id="taxRateInput" type="number" value="18" min="0">
+          </label>
+          <label class="field">
+            <span>Discount (%)</span>
+            <input id="discountRateInput" type="number" value="5" min="0">
+          </label>
+        </div>
+
+        <h3 class="group-title">Branding</h3>
+        <label class="field">
+          <span>Upload logo (PNG / JPG)</span>
+          <input id="logoInput" type="file" accept="image/png, image/jpeg" class="file-input">
+        </label>
+        <button id="removeLogoButton" type="button" class="btn btn-danger-soft btn-block hidden">Remove logo</button>
+      </div>
+    </aside>
+
+    <!-- ============ Preview ============ -->
+    <section class="preview-column">
+
+      <div class="action-buttons">
+        <button id="draftEmailButton" type="button" class="btn btn-purple"><span>✨</span> Draft email</button>
+        <button id="downloadPdfButton" type="button" class="btn btn-red">⬇ Download PDF</button>
+        <button id="printButton" type="button" class="btn btn-blue">🖨 Print invoice</button>
+      </div>
+
+      <div id="invoicePreview" class="invoice-paper">
+
+        <div class="inv-header">
+          <div class="inv-from">
+            <img id="logoDisplay" class="logo hidden" alt="Business logo">
+            <div id="logoPlaceholder" class="logo-placeholder">[Logo here]</div>
+            <h2 id="businessNameDisplay" class="biz-name">Tech Solutions Pvt. Ltd.</h2>
+            <p id="businessAddressDisplay" class="muted pre-line">123 Business Rd, New Delhi, India 110001</p>
+            <p class="muted">GSTIN: <span id="businessGstinDisplay" class="strong">07AAACH9121E1ZJ</span></p>
+          </div>
+          <div class="inv-meta">
+            <h2 class="inv-title">INVOICE</h2>
+            <p class="meta-line">Invoice # <span id="invoiceNumberDisplay" class="strong dark">INV-2026-001</span></p>
+            <p class="meta-line">Date: <span id="dateDisplay" class="strong dark"></span></p>
+          </div>
+        </div>
+
+        <div class="billed">
+          <h3 class="small-heading">Billed to</h3>
+          <p id="clientNameDisplay" class="client-name">Acme Corp</p>
+          <p id="clientAddressDisplay" class="muted pre-line">456 Client St, Mumbai, India 400001</p>
+          <p id="clientGstinLine" class="muted hidden">Client GSTIN: <span id="clientGstinDisplay" class="strong"></span></p>
+        </div>
+
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th class="left">Description</th>
+              <th class="right">Qty</th>
+              <th class="right">Unit price (₹)</th>
+              <th class="right">Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceItemsTable"></tbody>
+        </table>
+
+        <div class="totals-wrap">
+          <div class="totals">
+            <div class="total-row top-border">
+              <span>Subtotal</span>
+              <span id="subtotalDisplay" class="strong dark">₹ 0.00</span>
+            </div>
+            <div class="total-row">
+              <span>Discount (<span id="discountRateDisplay">5</span>%)</span>
+              <span id="discountDisplay" class="green strong">- ₹ 0.00</span>
+            </div>
+            <div class="total-row">
+              <span>Tax (<span id="taxRateDisplay">18</span>%)</span>
+              <span id="taxDisplay" class="red strong">₹ 0.00</span>
+            </div>
+            <div class="total-row grand">
+              <span>TOTAL DUE</span>
+              <span id="totalDisplay">₹ 0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terms">
+          <div class="terms-head">
+            <h4 class="small-heading">Terms &amp; conditions</h4>
+            <button id="generateTermsButton" type="button" class="link-btn" data-html-ignore><span>✨</span> Generate terms</button>
+          </div>
+          <p id="termsAndConditionsDisplay" class="terms-text">Payment is due within 15 days. Thank you for your business!</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ Email modal ============ -->
+  <div id="emailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="emailModalTitle">✨ AI generated email draft</h3>
+        <button id="closeModalX" type="button" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="modal-note">Copy the text below. Remember to attach the PDF before sending.</p>
+      <div class="modal-body"><pre id="emailContentDisplay"></pre></div>
+      <div class="modal-actions">
+        <button id="copyEmailButton" type="button" class="btn btn-blue">Copy text</button>
+        <button id="closeModalButton" type="button" class="btn btn-grey">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
